@@ -36,23 +36,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'pnpm' # 启用pnpm缓存，加速构建
-
-      # 🔴 固定 pnpm 精确版本 10.32.1
-      - name: Setup pnpm 10.32.1
-        uses: pnpm/action-setup@v4
+          cache: 'npm' # 启用pnpm缓存，加速构建
 
       # 安装依赖（全版本兼容，无报错）
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       # 构建Vite+Vue3项目
       - name: Build project
-        run: pnpm build
+        run: npm run build
 
       # 解决SPA路由刷新404问题
-      - name: Handle SPA routing
-        run: cp dist/index.html dist/404.html
+      # - name: Handle SPA routing
+      #   run: cp dist/index.html dist/404.html
 
       # 上传构建产物
       - name: Upload artifact
@@ -64,23 +60,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-# jobs:
-#   # Single deploy job since we're just deploying
-#   deploy:
-#     environment:
-#       name: github-pages
-#       url: ${{ steps.deployment.outputs.page_url }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#       - name: Setup Pages
-#         uses: actions/configure-pages@v5
-#       - name: Upload artifact
-#         uses: actions/upload-pages-artifact@v3
-#         with:
-#           # Upload entire repository
-#           path: '.'
-#       - name: Deploy to GitHub Pages
-#         id: deployment
-#         uses: actions/deploy-pages@v4

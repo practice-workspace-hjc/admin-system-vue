@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
-import type { User } from '@/types/user'
+import type { User } from '@/types'
 
 // 生成用户数据
 export const generateUser = (id: number): User => {

@@ -79,123 +79,123 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { User, UserFilled, View, ShoppingCart } from '@element-plus/icons-vue'
-import * as echarts from 'echarts'
-import { getOverview, getTrend, getCategory } from '@/api/dashboard'
-import type { DashboardOverview, TrendItem, CategoryItem } from '@/types/dashboard'
+import { ref, onMounted, onUnmounted } from "vue";
+import { User, UserFilled, View, ShoppingCart } from "@element-plus/icons-vue";
+import * as echarts from "echarts";
+import { getOverview, getTrend, getCategory } from "@/api/dashboard";
+import type { DashboardOverview, TrendItem, CategoryItem } from "@/types";
 
 const overview = ref<DashboardOverview>({
   userCount: 0,
   roleCount: 0,
   visitCount: 0,
   orderCount: 0,
-})
+});
 
-const trendChartRef = ref<HTMLElement>()
-const categoryChartRef = ref<HTMLElement>()
-let trendChart: echarts.ECharts | null = null
-let categoryChart: echarts.ECharts | null = null
+const trendChartRef = ref<HTMLElement>();
+const categoryChartRef = ref<HTMLElement>();
+let trendChart: echarts.ECharts | null = null;
+let categoryChart: echarts.ECharts | null = null;
 
 // 获取概览数据
 const fetchOverview = async () => {
-  overview.value = await getOverview()
-}
+  overview.value = await getOverview();
+};
 
 // 初始化趋势图表
 const initTrendChart = async () => {
-  if (!trendChartRef.value) return
+  if (!trendChartRef.value) return;
 
-  const data = await getTrend()
+  const data = await getTrend();
 
-  trendChart = echarts.init(trendChartRef.value)
+  trendChart = echarts.init(trendChartRef.value);
   trendChart.setOption({
     tooltip: {
-      trigger: 'axis',
+      trigger: "axis",
     },
     xAxis: {
-      type: 'category',
+      type: "category",
       data: data.map((item: TrendItem) => item.date.slice(5)),
       axisLine: {
         lineStyle: {
-          color: '#dcdfe6',
+          color: "#dcdfe6",
         },
       },
       axisLabel: {
-        color: '#606266',
+        color: "#606266",
       },
     },
     yAxis: {
-      type: 'value',
+      type: "value",
       axisLine: {
         show: false,
       },
       axisLabel: {
-        color: '#606266',
+        color: "#606266",
       },
       splitLine: {
         lineStyle: {
-          color: '#ebeef5',
+          color: "#ebeef5",
         },
       },
     },
     series: [
       {
-        name: '访问量',
-        type: 'line',
+        name: "访问量",
+        type: "line",
         smooth: true,
         data: data.map((item: TrendItem) => item.value),
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(64, 158, 255, 0.3)' },
-            { offset: 1, color: 'rgba(64, 158, 255, 0.05)' },
+            { offset: 0, color: "rgba(64, 158, 255, 0.3)" },
+            { offset: 1, color: "rgba(64, 158, 255, 0.05)" },
           ]),
         },
         lineStyle: {
-          color: '#409eff',
+          color: "#409eff",
         },
         itemStyle: {
-          color: '#409eff',
+          color: "#409eff",
         },
       },
     ],
-  })
-}
+  });
+};
 
 // 初始化分类图表
 const initCategoryChart = async () => {
-  if (!categoryChartRef.value) return
+  if (!categoryChartRef.value) return;
 
-  const data = await getCategory()
+  const data = await getCategory();
 
-  categoryChart = echarts.init(categoryChartRef.value)
+  categoryChart = echarts.init(categoryChartRef.value);
   categoryChart.setOption({
     tooltip: {
-      trigger: 'item',
+      trigger: "item",
     },
     legend: {
-      bottom: '5%',
-      left: 'center',
+      bottom: "5%",
+      left: "center",
     },
     series: [
       {
-        type: 'pie',
-        radius: ['40%', '70%'],
+        type: "pie",
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
-          borderColor: '#fff',
+          borderColor: "#fff",
           borderWidth: 2,
         },
         label: {
           show: false,
-          position: 'center',
+          position: "center",
         },
         emphasis: {
           label: {
             show: true,
             fontSize: 16,
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
         },
         labelLine: {
@@ -207,27 +207,27 @@ const initCategoryChart = async () => {
         })),
       },
     ],
-  })
-}
+  });
+};
 
 // 窗口大小变化时重绘图表
 const handleResize = () => {
-  trendChart?.resize()
-  categoryChart?.resize()
-}
+  trendChart?.resize();
+  categoryChart?.resize();
+};
 
 onMounted(async () => {
-  await fetchOverview()
-  await initTrendChart()
-  await initCategoryChart()
-  window.addEventListener('resize', handleResize)
-})
+  await fetchOverview();
+  await initTrendChart();
+  await initCategoryChart();
+  window.addEventListener("resize", handleResize);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-  trendChart?.dispose()
-  categoryChart?.dispose()
-})
+  window.removeEventListener("resize", handleResize);
+  trendChart?.dispose();
+  categoryChart?.dispose();
+});
 </script>
 
 <style scoped lang="scss">

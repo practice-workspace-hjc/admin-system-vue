@@ -1,5 +1,5 @@
 import { request } from './index'
-import type { DashboardOverview, TrendItem, CategoryItem } from '@/types/dashboard'
+import type { DashboardOverview, TrendItem, CategoryItem } from '@/types'
 
 // 获取概览数据
 export const getOverview = () => {

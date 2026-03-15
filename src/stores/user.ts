@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { login as loginApi, logout as logoutApi, getUserInfo } from '@/api/auth'
 import { getToken, setToken, removeToken, setRefreshToken } from '@/utils/auth'
-import type { LoginParams, UserInfo } from '@/types/user'
+import type { LoginParams, UserInfo } from '@/types'
 
 export const useUserStore = defineStore('user', () => {
   // 状态

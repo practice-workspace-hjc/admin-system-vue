@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
-import type { DashboardOverview, TrendItem, CategoryItem } from '@/types/dashboard'
+import type { DashboardOverview, TrendItem, CategoryItem } from '@/types'
 
 // 生成概览数据
 export const generateOverview = (): DashboardOverview => {

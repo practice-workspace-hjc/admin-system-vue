@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/zh_CN'
-import type { Role } from '@/types/role'
+import type { Role } from '@/types'
 
 // 角色权限
 const rolePermissions: Record<string, string[]> = {

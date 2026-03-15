@@ -47,8 +47,8 @@ jobs:
         run: npm run build
 
       # 解决SPA路由刷新404问题
-      # - name: Handle SPA routing
-      #   run: cp dist/index.html dist/404.html
+      - name: Handle SPA routing
+        run: cp dist/index.html dist/404.html
 
       # 上传构建产物
       - name: Upload artifact
